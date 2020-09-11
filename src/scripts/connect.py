@@ -1,22 +1,25 @@
 import psycopg2
 from psycopg2 import OperationalError
 
-def create_connection(db_name, db_user, db_password, db_host, db_port):
-    connection = None
-    try:
-        connection = psycopg2.connect(
-            database=db_name,
-            user=db_user,
-            password=db_password,
-            host=db_host,
-            port=db_port,
-        )
-        print("Connection to PostgreSQL DB successful")
-    except OperationalError as e:
-        print(f"The error '{e}' occurred")
-    return connection
+try:
+    connection = psycopg2.connect(
+        database = "oiet_data",
+        user = "oiet_admin",
+        password = "admin",
+        host= "127.0.0.1",
+        port = "5432"
+    )
+    
+    cursor = connection.cursor()
+    create_table_query = '''CREATE TABLE test(
+        username    TEXT    NOT NULL, 
+        password    CHAR(10)    NOT NULL);'''
 
-connection = create_connection("oiet_data", "oiet_admin", "admin", "127.0.0.1", 5432
-)
+    cursor.execute(create_table_query)
+    connection.commit()
+    print("Table created successfully")
+except OperationalError as e:  # Error that is typically not under programmer's control
+    print(f"The error '{e}' occurred")
+    
 
 
