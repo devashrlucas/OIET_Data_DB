@@ -13,16 +13,14 @@ DATABASE_HOST=os.getenv("DATABASE_HOST")
 DATABASE_PORT=os.getenv("DATABASE_PORT")
 PATH_TO_DATA=os.getenv("PATH_TO_DATA")
 URL=os.getenv("URL") #ValueErrors when trying to use environmental variables in create_engine
-'''
-data_file = pd.read_csv(PATH_TO_DATA, sep=',')
 
-engine = create_engine(URL)
-
-data_file.to_sql("affinity", engine, index = False)
-'''
 data_directory = os.listdir(PATH_TO_DATA)
 for i in range(len(data_directory)):
+    if '.DS_Store' in data_directory:
+        data_directory.remove('.DS_Store')
     filename = sorted(data_directory)[i]
-    print(filename)
+    data_file = pd.read_csv(PATH_TO_DATA+filename, sep=',')
+    engine = create_engine(URL)
+    data_file.to_sql(filename,engine,if_exists="replace",index=True)
 
  
