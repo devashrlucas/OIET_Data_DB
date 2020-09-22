@@ -1,5 +1,9 @@
 # OIET_Data_DB
-Data from the Opportunity Insights Economic Tracker as a database
+Data from the Opportunity Insights Economic Tracker as a database.
+
+# Entity Relationship Diagram
+Below is an ERD I created using [dbdesigner.net](https://www.dbdesigner.net/). The majority of the database design was inherited from how the original data files are formatted. This ERD primarily documents the existing structure. A PDF version of the diagram is also available in the `docs` folder.
+[![](docs/entity_relationship_diagram.png)](docs/entity_relationship_diagram.png)
 
 # Acknowledgements
 
