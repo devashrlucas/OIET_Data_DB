@@ -1,4 +1,4 @@
-# OIET_Data_DB
+# Database: OIET Data
 Data from the Opportunity Insights Economic Tracker as a database.
 
 # Entity Relationship Diagram
