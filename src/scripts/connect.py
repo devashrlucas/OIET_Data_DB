@@ -13,7 +13,6 @@ from psycopg2 import OperationalError
 from dotenv import load_dotenv
 import os
 
-
 load_dotenv()
 
 
