@@ -27,6 +27,7 @@ engine = create_engine("postgres://localhost/oiet_data")
 if not database_exists(engine.url):
     create_database(engine.url)
 
+
 try:
     connection=psycopg2.connect(
         database=DATABASE_NAME,
@@ -37,15 +38,8 @@ try:
     )
     
     cursor = connection.cursor()
-    create_table_query = '''CREATE TABLE test(
-        username    TEXT    NOT NULL, 
-        password    CHAR(10)    NOT NULL);'''
-
-    cursor.execute(create_table_query)
-    connection.commit()
-    print("Table created successfully")
-except OperationalError as e:  # Error that is typically not under programmer's control
-    print(f"The error '{e}' occurred")
+except OperationalError as oe:  # Error that is typically not under programmer's control
+    print(f"The error '{oe}' occurred")
     
 
 
