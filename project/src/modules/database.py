@@ -22,9 +22,12 @@ def create_db():
     if not database_exists(engine.url):
         create_database(engine.url)
 
-# Can create multiple db connections if needed
+# Can create multiple db connections if needed but should be avoided
+# Opt for single connection, multiple cursors
+
+
 class DbConnection():
-    def __init__(self): 
+    def __init__(self):
         self.name = os.getenv("DATABASE_NAME")
         self.login = os.getenv("DATABASE_LOGIN")
         self.password = os.getenv("DATABASE_PASSWORD")
@@ -38,10 +41,12 @@ class DbConnection():
                 host=self.host,
                 port=self.port
             )
-        except OperationalError as oe:  # Error that is typically not under programmer's control
+        except OperationalError as oe:
             print(f"The error '{oe}' occurred")
-    def create_cursor(self):    
-        self.cursor = self.connection.cursor()
 
+def create_connection():
+    connection = DbConnection()
+    return connection
 
-        
+# Use this shared connection unless a separate connection is absolutely needed
+CONNECTION = create_connection()

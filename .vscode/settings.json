@@ -2,5 +2,8 @@
     "cSpell.words": [
         "oiet"
     ],
-    "python.pythonPath": "env/bin/python"
+    "python.pythonPath": "env/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
 }
