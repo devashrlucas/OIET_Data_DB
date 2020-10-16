@@ -9,6 +9,7 @@ from unittest import TestCase
 from unittest.mock import patch
 
 import psycopg2
+
 # Error that is typically not under programmer's control
 from psycopg2 import OperationalError
 
@@ -17,8 +18,9 @@ from dotenv import load_dotenv
 import os
 
 import sys
-sys.path.append('project/src/modules/database.py')
- 
+
+sys.path.append("project/src/modules/database.py")
+
 
 load_dotenv()
 
@@ -38,7 +40,7 @@ class MockDB(TestCase):
             user=DATABASE_LOGIN,
             password=DATABASE_PASSWORD,
             host=DATABASE_HOST,
-            port=DATABASE_PORT
+            port=DATABASE_PORT,
         )
         cursor = connection.cursor()
         # Drop database if already exists
@@ -50,9 +52,9 @@ class MockDB(TestCase):
             print(f"The error '{oe}' occurred")
         try:
             # Create test table
-            create_table_query = '''CREATE TABLE test(
+            create_table_query = """CREATE TABLE test(
                 username    TEXT    NOT NULL,
-                password    CHAR(10)    NOT NULL);'''
+                password    CHAR(10)    NOT NULL);"""
             cursor.execute(create_table_query)
             connection.commit()
             print("Table created successfully")
