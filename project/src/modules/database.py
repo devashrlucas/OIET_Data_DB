@@ -1,9 +1,6 @@
 """
-For Mac users: please remove the '.DS_Store' file from the main directory.
-If you have already done so globally, you can ignore the following set of instructions.
-1) Open terminal
-2) In command line, run: cd /path/to/OIET_DATA_DB
-3) In command line, run: find . -name '.DS_Store' -type f -delete
+Attributions:
+* Database class definition in Python: [Stack Overflow](https://stackoverflow.com/a/38078544/) under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 """
 
 from sqlalchemy import create_engine
@@ -23,12 +20,8 @@ def create_db():
         create_database(engine.url)
 
 
-# Can create multiple db connections if needed but should be avoided
-# Opt for single connection, multiple cursors
-
-
 class Database:
-    def __init__(self):
+    def __init__(self, name):
         self.name = os.getenv("DATABASE_NAME")
         self.login = os.getenv("DATABASE_LOGIN")
         self.password = os.getenv("DATABASE_PASSWORD")
@@ -46,17 +39,47 @@ class Database:
         except OperationalError as oe:
             print(f"The error '{oe}' occurred")
 
-    def alter_tables(self):
-        self.cursor = self.connection.cursor()
+    # makes and returns db connection in with statements
+    def __enter__(self):
+        return self
 
-    # Remove '.csv' from table name
-    # Add primary keys
-    # Add constraints for foreign keys
+    # closes db connection in with statements
+    def __exit__(self, exeception_type, exception_value, exception_traceback):
+        self.close()
 
+    # getter
+    @property
+    def cursor(self):
+        return self.cursor
 
-# def create_connection():
-# connection = DbConnection()
-# return connection
+    def commit(self):
+        self.connection.commit()
 
-# Use this shared connection unless a separate connection is absolutely needed
-CONNECTION = Database()
+    def close(self, commit=True):
+        if commit:
+            self.commit()
+        self.connection.close()
+
+    def execute(self, sql, params=None):
+        self.cursor.execute(sql, params or ())
+
+    def fetchall(self):
+        return self.cursor.fetchall()
+
+    def query(self, sql, params=None):
+        self.cursor.execute(sql, params or ())
+        return self.fetchall()
+
+    def add_primary_key(self, table_name, column_name):
+        sql = "ALTER TABLE {table_name} ADD PRIMARY KEY {column_name}".format(
+            table_name, column_name
+        )
+        return self.query(sql)
+
+    def add_foreign_key(
+        self, table_name, column_name, fk_column, parent_table, parent_key_column
+    ):
+        sql = "ALTER TABLE {table_name} CONSTRAINT FOREIGN KEY {fk_column} REFERENCES {parent_table}({parent_key_column})".format(
+            table_name, column_name, fk_column, parent_table, parent_key_column
+        )
+        return self.query(sql)
