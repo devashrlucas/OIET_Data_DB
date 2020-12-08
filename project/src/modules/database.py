@@ -20,6 +20,7 @@ def create_db():
         create_database(engine.url)
 
 
+# Creates db object with 1 connection and 1 cursor. Limit number of connections. Multiple cursors ok.
 class Database:
     def __init__(self, name):
         self.name = os.getenv("DATABASE_NAME")
@@ -29,7 +30,7 @@ class Database:
         self.port = os.getenv("DATABASE_PORT")
         self.url = os.getenv("URL")
         try:
-            self.connection = psycopg2.connect(
+            self._connection = psycopg2.connect(
                 database=self.name,
                 user=self.login,
                 password=self.password,
@@ -38,19 +39,25 @@ class Database:
             )
         except OperationalError as oe:
             print(f"The error '{oe}' occurred")
+        self._cursor = self._connection.cursor()
 
-    # makes and returns db connection in with statements
+    # Makes and returns db connection in with statements
     def __enter__(self):
         return self
 
-    # closes db connection in with statements
+    # Closes db connection in with statements
     def __exit__(self, exeception_type, exception_value, exception_traceback):
         self.close()
 
     # getter
     @property
+    def connection(self):
+        return self._connection
+
+    # getter
+    @property
     def cursor(self):
-        return self.cursor
+        return self._cursor
 
     def commit(self):
         self.connection.commit()
@@ -70,16 +77,8 @@ class Database:
         self.cursor.execute(sql, params or ())
         return self.fetchall()
 
-    def add_primary_key(self, table_name, column_name):
-        sql = "ALTER TABLE {table_name} ADD PRIMARY KEY {column_name}".format(
-            table_name, column_name
-        )
-        return self.query(sql)
 
-    def add_foreign_key(
-        self, table_name, column_name, fk_column, parent_table, parent_key_column
-    ):
-        sql = "ALTER TABLE {table_name} CONSTRAINT FOREIGN KEY {fk_column} REFERENCES {parent_table}({parent_key_column})".format(
-            table_name, column_name, fk_column, parent_table, parent_key_column
-        )
-        return self.query(sql)
+# with Database("") as db:
+
+
+# cursor.callproc('stored_proc_name',[IN and OUT params,])
