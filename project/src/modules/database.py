@@ -77,8 +77,13 @@ class Database:
         self.cursor.execute(sql, params or ())
         return self.fetchall()
 
+    def sp_add_pk(self):
+        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(t_name varchar, c_name varchar) LANGUAGE plpgsql AS $$ DECLARE row record; BEGIN FOR row IN SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_schema = 'public' AND table_name LIKE t_name AND column_name LIKE c_name LOOP EXECUTE 'ALTER TABLE public.' || quote_ident(row.table_name) || ' ADD PRIMARY KEY ' || '(' || row.column_name || ')'; END LOOP; END; $$"
+        return self.cursor.execute(sql)
 
-# with Database("") as db:
 
-
-# cursor.callproc('stored_proc_name',[IN and OUT params,])
+"""
+with Database("") as db:
+    # db.cursor.callproc('stored_proc_name',[IN and OUT params,])
+    db.cursor.callproc(')
+"""
