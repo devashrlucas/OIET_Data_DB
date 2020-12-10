@@ -22,7 +22,7 @@ def create_db():
 
 # Creates db object with 1 connection and 1 cursor. Limit number of connections. Multiple cursors ok.
 class Database:
-    def __init__(self, name):
+    def __init__(self):
         self.name = os.getenv("DATABASE_NAME")
         self.login = os.getenv("DATABASE_LOGIN")
         self.password = os.getenv("DATABASE_PASSWORD")
@@ -77,7 +77,7 @@ class Database:
         self.cursor.execute(sql, params or ())
         return self.fetchall()
 
-    def sp_add_pk(self):
+    def sp_add_pk(t_name, c_name):
         sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(t_name varchar, c_name varchar) LANGUAGE plpgsql AS $$ DECLARE row record; BEGIN FOR row IN SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_schema = 'public' AND table_name LIKE t_name AND column_name LIKE c_name LOOP EXECUTE 'ALTER TABLE public.' || quote_ident(row.table_name) || ' ADD PRIMARY KEY ' || '(' || row.column_name || ')'; END LOOP; END; $$"
         return self.cursor.execute(sql)
 
@@ -87,3 +87,5 @@ with Database("") as db:
     # db.cursor.callproc('stored_proc_name',[IN and OUT params,])
     db.cursor.callproc(')
 """
+# for import into stored_proc.py
+db = Database()
