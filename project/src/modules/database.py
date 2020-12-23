@@ -77,9 +77,18 @@ class Database:
         self.cursor.execute(sql, params or ())
         return self.fetchall()
 
+    # creates stored procedure for add primary key in database
     def sp_add_pk(self, t_name, c_name):
-        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(t_name varchar, c_name varchar) LANGUAGE plpgsql AS $$ DECLARE row record; BEGIN FOR row IN SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_schema = 'public' AND table_name = t_name AND column_name = c_name LOOP EXECUTE 'ALTER TABLE public.' || quote_ident(row.table_name) || ' ADD PRIMARY KEY ' || '(' || row.column_name || ')'; END LOOP; END; $$"
-        return self.cursor.execute(sql)
+        connection = self.connection
+        cursor = self.cursor
+        commit = self.commit
+
+        sql = "CREATE OR REPLACE PROCEDURE add_primary_key(t_name varchar, c_name varchar) LANGUAGE plpgsql AS $$ DECLARE row record; BEGIN FOR row IN SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_schema = 'public' AND table_name = t_name AND column_name = c_name LOOP EXECUTE 'ALTER TABLE public.' || quote_ident(row.table_name) || ' ADD PRIMARY KEY ' || '(' || row.column_name || ')'; END LOOP; END; $$"
+
+        cursor.execute(sql)
+
+        connection.commit
+        cursor.close()
 
 
 # for import into other modules
