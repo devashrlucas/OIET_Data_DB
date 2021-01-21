@@ -83,12 +83,9 @@ class Database:
         cursor = self.cursor
         commit = self.commit
 
-        sql = "CREATE OR REPLACE PROCEDURE add_primary_key(t_name varchar, c_name varchar) LANGUAGE plpgsql AS $$ DECLARE row record; BEGIN FOR row IN SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_schema = 'public' AND table_name = t_name AND column_name = c_name LOOP EXECUTE 'ALTER TABLE public.' || quote_ident(row.table_name) || ' ADD PRIMARY KEY ' || '(' || row.column_name || ')'; END LOOP; END; $$"
+        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(IN t_name character varying, IN c_name character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; pkey varchar; BEGIN FOR row IN (SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = 'public' AND table_name = t_name AND column_name = c_name) LOOP IF EXISTS (SELECT conrelid::regclass AS table_from, conname, pg_get_constraintdef(oid) FROM   pg_constraint WHERE  contype IN ('f', 'p ') AND oid LIKE '%column_name%') THEN EXECUTE 'ALTER TABLE ' || quote_ident(t_name) || ' ADD PRIMARY KEY ' || '(' || quote_ident(c_name) || ')' ; END IF; END LOOP; END; $$;"
 
         cursor.execute(sql)
-
-        connection.commit
-        cursor.close()
 
 
 # for import into other modules
