@@ -24,6 +24,10 @@ def add_pk(t_name, c_name):
         print(e)
 
 
+"""
 add_pk(t_name="GeoIDs - City", c_name="cityid")
+add_pk(t_name="GeoIDs - County", c_name="countyfips")
 add_pk(t_name="GeoIDs - State", c_name="statefips")
+add_pk(t_name="ACS Demographic And Housing Estimates - National - 2019", c_name="countrycode")
+"""
 print("done")
