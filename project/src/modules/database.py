@@ -86,17 +86,25 @@ class Database:
         sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(IN t_name character varying, IN c_name character varying) LANGUAGE 'plpgsql' AS $$ BEGIN  'ALTER TABLE ' || quote_ident(t_name) || ' ADD PRIMARY KEY ' || '(' || quote_ident(c_name) || ')'; END; $$;"
         cursor.execute(sql)
 
-    def sp_add_fk(self, tb_keyword, c_name, pk_ref):
+    def sp_add_fk(self, tb_keyword, c_name, p_table, pk_ref):
         connection = self.connection
         cursor = self.cursor
         commit = self.commit
 
-        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; BEGIN FOR row IN (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES parent_table ' || '(' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
+        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; BEGIN FOR row IN (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
         # sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ BEGIN 'ALTER TABLE ' || quote_ident(tb_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES parent_table ' || '(' || quote_ident(pk_ref) || ')'; END; $$;"
         cursor.execute(sql)
+        connection.commit()
 
 
 # for import into other modules
 db = Database()
-db.sp_add_fk(tb_keyword="city", c_name="cityid", pk_ref="cityid")
-print("done")
+"""
+db.sp_add_fk(
+    tb_keyword="city", c_name="cityid", p_table="GeoIDs - City", pk_ref="cityid"
+)
+db.sp_add_fk(
+    tb_keyword="state", c_name="statefips", p_table="GeoIDs - State", pk_ref="statefips"
+)
+"""
+print("db.py done")
