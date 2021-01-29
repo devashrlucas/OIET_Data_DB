@@ -90,8 +90,8 @@ class Database:
         connection = self.connection
         cursor = self.cursor
         commit = self.commit
+        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; t_name varchar; BEGIN FOR row IN (SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='public' AND table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(row.table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
 
-        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; BEGIN FOR row IN (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
         # sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ BEGIN 'ALTER TABLE ' || quote_ident(tb_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES parent_table ' || '(' || quote_ident(pk_ref) || ')'; END; $$;"
         cursor.execute(sql)
         connection.commit()
