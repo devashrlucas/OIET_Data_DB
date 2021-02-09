@@ -14,11 +14,14 @@ import os
 load_dotenv()
 
 
+# Create database
 def create_db():
     engine = create_engine("postgres://localhost/oiet_data")
     if not database_exists(engine.url):
         create_database(engine.url)
 
+
+create_db()
 
 #  db object with 1 connection and 1 cursor. Limit number of connections. Multiple cursors ok.
 class Database:
@@ -83,14 +86,14 @@ class Database:
         cursor = self.cursor
         commit = self.commit
 
-        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(IN t_name character varying, IN c_name character varying) LANGUAGE 'plpgsql' AS $$ BEGIN  'ALTER TABLE ' || quote_ident(t_name) || ' ADD PRIMARY KEY ' || '(' || quote_ident(c_name) || ')'; END; $$;"
+        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(IN t_name character varying, IN c_name character varying) LANGUAGE 'plpgsql' AS $$ BEGIN EXECUTE 'ALTER TABLE ' || quote_ident(t_name) || ' ADD PRIMARY KEY ' || '(' || quote_ident(c_name) || ')'; END; $$;"
         cursor.execute(sql)
 
     def sp_add_fk(self, tb_keyword, c_name, p_table, pk_ref):
         connection = self.connection
         cursor = self.cursor
         commit = self.commit
-        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; t_name varchar; BEGIN FOR row IN (SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='public' AND table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(row.table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
+        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; t_name varchar; BEGIN FOR row IN (SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='public' AND table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(row.table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || ' REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
 
         # sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ BEGIN 'ALTER TABLE ' || quote_ident(tb_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || 'REFERENCES parent_table ' || '(' || quote_ident(pk_ref) || ')'; END; $$;"
         cursor.execute(sql)
@@ -99,12 +102,4 @@ class Database:
 
 # for import into other modules
 db = Database()
-"""
-db.sp_add_fk(
-    tb_keyword="city", c_name="cityid", p_table="GeoIDs - City", pk_ref="cityid"
-)
-db.sp_add_fk(
-    tb_keyword="state", c_name="statefips", p_table="GeoIDs - State", pk_ref="statefips"
-)
-"""
 print("db.py done")
