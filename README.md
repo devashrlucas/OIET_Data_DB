@@ -8,7 +8,7 @@ Data from the Opportunity Insights Economic Tracker as a database.
 If you have already done so globally, you can ignore the following set of instructions.
 1) Open your preferred command line interface
 2) In command line, run: `cd /path/to/OIET_DATA_DB`
-3) In command line, `run: find . -name '.DS_Store' -type f -delete`
+3) In command line, run:` find . -name '.DS_Store' -type f -delete`
 
 # Entity Relationship Diagram
 Below is an ERD I created using [dbdesigner.net](https://www.dbdesigner.net/). The majority of the database design was inherited from how the original data files are formatted. This ERD primarily documents the existing structure. A PDF version of the diagram is also available in the `docs` folder.
