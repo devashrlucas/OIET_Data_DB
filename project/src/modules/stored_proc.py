@@ -46,11 +46,27 @@ def add_fk(tb_keyword, c_name, p_table, pk_ref):
 
         # commit and close cursor using db object methods.
         connection.commit()
-        # cursor.close()
     except Exception as e:
         print(e)
 
 
+def create_keys_view():
+    try:
+        # create connection and cursor using db object methods
+        connection = db.connection
+        cursor = db.cursor
+
+        connection
+        cursor
+
+        # call stored procedure: create view with all primary and foreign keys
+
+        connection.commit()
+    except Exception as e:
+        print(e)
+
+
+db.sp_add_keys_view()
 add_pk(t_name="GeoIDs - City", c_name="cityid")
 add_pk(t_name="GeoIDs - County", c_name="countyfips")
 add_pk(t_name="GeoIDs - State", c_name="statefips")
@@ -80,5 +96,6 @@ add_fk(
     p_table="ACS Demographic And Housing Estimates - National - 2019",
     pk_ref="countrycode",
 )
+
 db.cursor.close()
 print("stored_proc.py done")
