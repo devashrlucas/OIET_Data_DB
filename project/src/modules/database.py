@@ -86,15 +86,24 @@ class Database:
         cursor = self.cursor
         commit = self.commit
 
-        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(IN t_name character varying, IN c_name character varying) LANGUAGE 'plpgsql' AS $$ BEGIN EXECUTE 'ALTER TABLE ' || quote_ident(t_name) || ' ADD PRIMARY KEY ' || '(' || quote_ident(c_name) || ')'; END; $$;"
+        sql = "CREATE OR REPLACE PROCEDURE public.add_primary_key(IN t_name character varying, IN c_name character varying) LANGUAGE 'plpgsql' AS $$ BEGIN IF t_name NOT IN (SELECT table_name FROM all_keys_view) THEN EXECUTE 'ALTER TABLE ' || quote_ident(t_name) || ' ADD PRIMARY KEY ' || '(' || quote_ident(c_name) || ')'; END IF; END; $$;"
         cursor.execute(sql)
 
     def sp_add_fk(self, tb_keyword, c_name, p_table, pk_ref):
         connection = self.connection
         cursor = self.cursor
         commit = self.commit
-        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; t_name varchar; BEGIN FOR row IN (SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='public' AND table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(row.table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || ' REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END; $$;"
+        sql = "CREATE OR REPLACE PROCEDURE public.add_foreign_key(IN tb_keyword character varying, IN c_name character varying, IN p_table varchar, IN pk_ref character varying) LANGUAGE 'plpgsql' AS $$ DECLARE row record; t_name varchar; cursor refcursor; BEGIN IF t_name NOT IN (SELECT table_name FROM all_keys_view) THEN IF t_name NOT IN (SELECT table_name FROM all_keys_view) THEN FOR row IN (SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='public' AND table_name NOT LIKE '%Geo' AND table_name NOT LIKE '%ACS' AND table_name LIKE tb_keyword) LOOP EXECUTE 'ALTER TABLE ' || quote_ident(row.table_name) || ' ADD CONSTRAINT ADD FOREIGN KEY ' || '(' || quote_ident(c_name) || ')' || ' REFERENCES ' || quote_ident(p_table) || ' (' || quote_ident(pk_ref) || ')'; END LOOP; END IF; END IF; END; $$;"
 
+        cursor.execute(sql)
+        connection.commit()
+
+    def sp_add_keys_view(self):
+        connection = self.connection
+        cursor = self.cursor
+        commit = self.commit
+
+        sql = "CREATE OR REPLACE VIEW all_keys_view as (SELECT * FROM information_schema.table_constraints AS tc WHERE constraint_schema = 'public')"
         cursor.execute(sql)
         connection.commit()
 
