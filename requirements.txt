@@ -39,7 +39,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 pluggy==0.13.1
 port-for==0.4
--e git+https://github.com/devashrlucas/OIET_Data_DB.git@4fee0e620e81d74fa8cf79bd7be964a6fdd6f187#egg=project
+-e git+https://github.com/devashrlucas/OIET_Data_DB.git@3de88be394a9443bc4061044afb43e73fce74093#egg=project
 prompt-toolkit==3.0.7
 psutil==5.7.2
 psycopg2==2.8.6
