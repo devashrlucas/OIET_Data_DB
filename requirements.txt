@@ -35,11 +35,12 @@ packaging==20.4
 pandas==1.1.2
 parso==0.7.1
 pathspec==0.8.0
+pep517==0.9.1
 pexpect==4.8.0
 pickleshare==0.7.5
 pluggy==0.13.1
 port-for==0.4
--e git+https://github.com/devashrlucas/OIET_Data_DB.git@48d12f814e4a72b2089751e2f9de3e94fb346a13#egg=project
+-e git+https://github.com/devashrlucas/OIET_Data_DB.git@7e87ddae92522854d916bc406ab3594f6f4bc17f#egg=project
 prompt-toolkit==3.0.7
 psutil==5.7.2
 psycopg2==2.8.6
