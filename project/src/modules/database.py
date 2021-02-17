@@ -110,4 +110,8 @@ class Database:
 
 # for import into other modules
 db = Database()
+sample_sql = 'CREATE TABLE sample AS (SELECT * FROM "COVID Tests - National - Daily" NATURAL JOIN "COVID Cases - National - Daily" NATURAL JOIN "COVID Deaths - National - Daily" );'
+db.cursor.execute(sample_sql)
+db.connection.commit()
+
 print("db.py done")
