@@ -10,7 +10,7 @@ dependencies:
   # get dependencies for pgcontents
   - certifi
   - click
-  - cryptography
+  #- cryptography
   - mako
   - psycopg2
   - six
