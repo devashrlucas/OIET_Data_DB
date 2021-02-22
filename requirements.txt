@@ -34,7 +34,7 @@ Flask-SQLAlchemy==2.4.4
 good-first-issues==1.1.0
 gunicorn==20.0.4
 halo==0.0.30
-idna==2.8
+idna==2.5
 iniconfig==1.0.1
 ipykernel==5.3.4
 ipython==7.18.1
@@ -126,7 +126,7 @@ tornado==6.1
 traitlets==5.0.4
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
-urllib3==1.25.4
+urllib3==1.21.1
 virtualenv==16.7.9
 voila==0.2.6
 wcwidth==0.2.5
