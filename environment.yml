@@ -12,6 +12,7 @@ dependencies:
   - click
   #- cryptography
   - mako
+  - pip
   - psycopg2
   - six
   - sqlalchemy
