@@ -18,7 +18,7 @@ botocore==1.20.11
 certifi==2018.1.18
 cffi==1.14.5
 chardet==3.0.4
-click==6.7
+click==7.1.2
 colorama==0.4.3
 commonmark==0.9.1
 decorator==4.4.2
@@ -34,7 +34,7 @@ Flask-SQLAlchemy==2.4.4
 good-first-issues==1.1.0
 gunicorn==20.0.4
 halo==0.0.30
-idna==2.6
+idna==2.8
 iniconfig==1.0.1
 ipykernel==5.3.4
 ipython==7.18.1
@@ -126,7 +126,7 @@ tornado==6.1
 traitlets==5.0.4
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
-urllib3==1.24.2
+urllib3==1.25.4
 virtualenv==16.7.9
 voila==0.2.6
 wcwidth==0.2.5
