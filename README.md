@@ -19,7 +19,8 @@ Below is an ERD I created using [dbdesigner.net](https://www.dbdesigner.net/). T
 ### Attributions
 Below is an aggregated list of all the attributions featured in this project. Each attribution is specifically noted in a comment in the corresponding file.
 * Database class definition in Python: [Stack Overflow](https://stackoverflow.com/a/38078544/) under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
-* Flask app setup and deployment to Heroku: [Real Python: Flask by Example (Parts 1,2)](https://realpython.com/flask-by-example-part-1-project-setup/#project-setup)
+* Flask app setup and deployment to Heroku: [Real Python: Flask by Example (Parts: 1)](https://realpython.com/flask-by-example-part-1-project-setup/#project-setup)
+* Connecting PostgreSQL database to Jupyter Notebook: [Connecting Python Pandas And Jupyter Notebooks To PostgreSQL For Data Analysis](https://blog.panoply.io/connecting-jupyter-notebook-with-postgresql-for-python-data-analysis)
 
 ### Dataset
 This dataset was downloaded from [Kaggle](https://www.kaggle.com/douglaskgaraujo/opportunity-insights-real-time-economic-tracker-us). **The rest of this README is copied from the original README for the dataset as it explains the context and use of the data.**
