@@ -21,6 +21,7 @@ Below is an aggregated list of all the attributions featured in this project. Ea
 * Database class definition in Python: [Stack Overflow](https://stackoverflow.com/a/38078544/) under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 * Flask app setup and deployment to Heroku: [Real Python: Flask by Example (Parts: 1)](https://realpython.com/flask-by-example-part-1-project-setup/#project-setup)
 * Connecting PostgreSQL database to Jupyter Notebook: [Connecting Python Pandas And Jupyter Notebooks To PostgreSQL For Data Analysis](https://blog.panoply.io/connecting-jupyter-notebook-with-postgresql-for-python-data-analysis)
+* Deploying a Jupyter Notebook Heroku with Voila: [Deploy a Jupyter Notebook Online with Voila and Heroku](https://pythonforundergradengineers.com/deploy-jupyter-notebook-voila-heroku.html#test-voila-locally)
 
 ### Dataset
 This dataset was downloaded from [Kaggle](https://www.kaggle.com/douglaskgaraujo/opportunity-insights-real-time-economic-tracker-us). **The rest of this README is copied from the original README for the dataset as it explains the context and use of the data.**
