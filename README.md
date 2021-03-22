@@ -24,6 +24,6 @@ Below is an aggregated list of all the attributions featured in this project. Ea
 * Deploying a Jupyter Notebook Heroku with Voila: [Deploy a Jupyter Notebook Online with Voila and Heroku](https://pythonforundergradengineers.com/deploy-jupyter-notebook-voila-heroku.html#test-voila-locally)
 
 ### Dataset
-This dataset was downloaded from [Kaggle](https://www.kaggle.com/douglaskgaraujo/opportunity-insights-real-time-economic-tracker-us). **The original [README](oiet_readme.md) for this dataset explains the context and use of the data.**
+This dataset was downloaded from [Kaggle](https://www.kaggle.com/douglaskgaraujo/opportunity-insights-real-time-economic-tracker-us). **The original [README](docs/oiet_readme.md) for this dataset explains the context and use of the data.**
 
 
