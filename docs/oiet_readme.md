@@ -1,3 +1,8 @@
+The following is copied from the original [README](https://github.com/opportunityinsights/economictracker). 
+---
+
+# Overview 
+
 The Opportunity Insights Economic Tracker (https://tracktherecovery.org) combines anonymized data from leading private companies – from credit card processors to payroll firms – to provide a real-time picture of indicators such as employment rates, consumer spending, and job postings across counties, industries, and income groups.
 
 All of the data displayed on the Economic Tracker can be downloaded here. In collaboration with our data partners, we are making this data freely available in order to assist in efforts to inform the public, policymakers, and researchers about the real-time state of the economy and the effects of COVID-19.
