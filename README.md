@@ -1,6 +1,8 @@
 # Database: OIET Data
 Data from the Opportunity Insights Economic Tracker as a PostgreSQL database.
 
+This is a personal project I created to help myself with learning about databases. This database project takes data from the Opportunity Insights Economic Tracker dataset (.csv files) and exports them to a PostgreSQL database. There is also a [web app](https://oiet-data-db.herokuapp.com/) with a sample table and basic data visualization. 
+
 # Prerequisites
 
 ### Local

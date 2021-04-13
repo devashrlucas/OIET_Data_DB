@@ -74,9 +74,7 @@ add_pk(
     t_name="ACS Demographic And Housing Estimates - National - 2019",
     c_name="countrycode",
 )
-
 add_fk(tb_keyword="%City%", c_name="cityid", p_table="GeoIDs - City", pk_ref="cityid")
-
 add_fk(
     tb_keyword="%State%",
     c_name="statefips",
@@ -89,13 +87,11 @@ add_fk(
     p_table="GeoIDs - County",
     pk_ref="countyfips",
 )
-
 add_fk(
     tb_keyword="%National%",
     c_name="countrycode",
     p_table="ACS Demographic And Housing Estimates - National - 2019",
     pk_ref="countrycode",
 )
-
 db.cursor.close()
 print("stored_proc.py done")

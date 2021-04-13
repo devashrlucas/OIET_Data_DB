@@ -7,11 +7,13 @@ from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 import psycopg2
 from psycopg2 import OperationalError
+from pathlib import Path
 from dotenv import load_dotenv
 import os
 
 
-load_dotenv()
+env_path = Path(".", ".env")
+load_dotenv(dotenv_path=env_path)
 
 
 # Create database
@@ -107,11 +109,15 @@ class Database:
         cursor.execute(sql)
         connection.commit()
 
+    # For import into other modules
 
-# for import into other modules
+
 db = Database()
-sample_sql = 'CREATE TABLE sample AS (SELECT * FROM "COVID Tests - National - Daily" NATURAL JOIN "COVID Cases - National - Daily" NATURAL JOIN "COVID Deaths - National - Daily" );'
+print("database.py done")
+
+"""
+# Sample table -- run query after running 'data_files.py' or else there will be an "psycopg2.errors.UndefinedTable: relation ..." error
+sample_sql = 'CREATE TABLE IF NOT EXISTS sample AS (SELECT * FROM "COVID Tests - National - Daily" NATURAL JOIN "COVID Cases - National - Daily" NATURAL JOIN "COVID Deaths - National - Daily" );'
 db.cursor.execute(sample_sql)
 db.connection.commit()
-
-print("db.py done")
+"""
