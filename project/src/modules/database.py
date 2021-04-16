@@ -25,6 +25,7 @@ def create_db():
 
 create_db()
 
+
 #  db object with 1 connection and 1 cursor. Limit number of connections. Multiple cursors ok.
 class Database:
     def __init__(self):
@@ -109,9 +110,8 @@ class Database:
         cursor.execute(sql)
         connection.commit()
 
-    # For import into other modules
 
-
+# For import into other modules
 db = Database()
 print("database.py done")
 
